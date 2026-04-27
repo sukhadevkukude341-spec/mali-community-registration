@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidFamily(data) {
+      return data.headName is string && data.headName.size() <= 200 &&
+             data.contactNumber is string && data.contactNumber.size() <= 20 &&
+             data.registeredAt is number &&
+             data.members is list &&
+             data.keys().hasAll(['headName', 'contactNumber', 'registeredAt', 'members']) &&
+             data.keys().size() >= 4;
+    }
+
+    match /families/{familyId} {
+      allow list: if true;
+      allow get: if true;
+      allow create: if isValidFamily(incoming());
+      // Admin/Super Admin can update status
+      allow update: if true; 
+      allow delete: if true;
+    }
+
+    match /users/{uid} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /logs/{logId} {
+      allow read: if true; // In production, restrict to SUPER_ADMIN/ADMIN
+      allow create: if true; 
+    }
+
+    match /notices/{noticeId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

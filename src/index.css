@@ -1,0 +1,40 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/libre-baskerville/400.css";
+@import "@fontsource/libre-baskerville/700.css";
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Libre Baskerville", serif;
+  --color-primary: #FFD700;
+  --color-secondary: #008000;
+  --color-accent: #8B4513;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-[#FAFAF5] text-slate-900;
+  }
+  
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+}
+
+.card-rounded {
+  @apply rounded-[32px] bg-white shadow-lg border border-slate-100;
+}
+
+.yellow-btn {
+  @apply bg-[#FFD700] text-slate-900 rounded-full px-6 py-2 transition-all hover:bg-[#FFC800] active:scale-95 font-bold shadow-md;
+}
+
+.green-btn {
+  @apply bg-[#008000] text-white rounded-full px-6 py-2 transition-all hover:bg-[#006400] active:scale-95 font-bold shadow-md;
+}
+
+.phule-gradient {
+  @apply bg-gradient-to-br from-[#FFD700] to-[#008000];
+}
+

@@ -1,0 +1,76 @@
+{
+  "entities": {
+    "Family": {
+      "title": "Family",
+      "description": "Family registration record with agricultural data",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "headName": { "type": "string" },
+        "mobile": { "type": "string" },
+        "address": { "type": "string" },
+        "village": { "type": "string" },
+        "taluka": { "type": "string" },
+        "district": { "type": "string" },
+        "pincode": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "registeredAt": { "type": "number" },
+        "updatedAt": { "type": "number" },
+        "registeredBy": { "type": "string" },
+        "agriculture": {
+          "type": "object",
+          "properties": {
+            "landAcres": { "type": "string" },
+            "crops": { "type": "string" }
+          }
+        },
+        "members": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      },
+      "required": ["headName", "mobile", "registeredAt", "status", "registeredBy"]
+    },
+    "User": {
+      "title": "User",
+      "description": "App user with role",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"] },
+        "village": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["uid", "fullName", "role"]
+    },
+    "Notice": {
+      "title": "Notice",
+      "description": "Public notice or announcement",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "date": { "type": "number" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["title", "content", "date", "isActive"]
+    }
+  },
+  "firestore": {
+    "/families/{familyId}": {
+      "schema": "Family",
+      "description": "Collection of families"
+    },
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/notices/{noticeId}": {
+      "schema": "Notice",
+      "description": "Public notices"
+    }
+  }
+}
